@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 
 const App = () => {
+  const [Task, SetTask] = useState([]);
+  const [search, SetSearch] = useState("");
 
-  const [Task,SetTask] = useState([]);
-  const [search,SetSearch] = useState("")
-
-  function handleAddClick () {
-    SetTask(pre => [...pre,search])
-    SetSearch("")
+  function handleAddClick() {
+    SetTask((pre) => [...pre, search]);
+    SetSearch("");
   }
 
-  console.log(Task);
-  
+  //  function handleDeleteClick(index) {
+  //   const filterData = Task.filter((value,i) => i != index)
+  //   SetTask(filterData)
+  // }
 
   return (
     <div className="h-screen w-screen flex flex-col justify-center items-center gap-6 bg-black text-white">
@@ -24,7 +25,21 @@ const App = () => {
           value={search}
           onChange={(e) => SetSearch(e.target.value)}
         />
-        <button onClick={handleAddClick} className="bg-gray-500 px-4 py-1 rounded-sm">Add</button>
+        <button
+          onClick={handleAddClick}
+          className="bg-gray-500 px-4 py-1 rounded-sm"
+        >
+          Add
+        </button>
+      </div>
+
+      <div>
+        {Task.map((task, index) => (
+          <div key={index} className="flex gap-5 p-2">
+            <h1 className="text-lg font-bold">{task}</h1>
+            {/* <button onClick={handleDeleteClick(index)} className="bg-gray-500 px-4 py-1 rounded-sm">Delete</button> */}
+          </div>
+        ))}
       </div>
     </div>
   );
