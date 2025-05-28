@@ -9,10 +9,10 @@ const App = () => {
     SetSearch("");
   }
 
-  //  function handleDeleteClick(index) {
-  //   const filterData = Task.filter((value,i) => i != index)
-  //   SetTask(filterData)
-  // }
+   function handleDeleteClick(index) {
+    const filterData = Task.filter((value,i) => i != index)
+    SetTask(filterData)
+  }
 
   return (
     <div className="h-screen w-screen flex flex-col justify-center items-center gap-6 bg-black text-white">
@@ -37,7 +37,7 @@ const App = () => {
         {Task.map((task, index) => (
           <div key={index} className="flex gap-5 p-2">
             <h1 className="text-lg font-bold">{task}</h1>
-            {/* <button onClick={handleDeleteClick(index)} className="bg-gray-500 px-4 py-1 rounded-sm">Delete</button> */}
+            <button onClick={() => {handleDeleteClick(index)}} className="bg-gray-500 px-4 py-1 rounded-sm">Delete</button>
           </div>
         ))}
       </div>
