@@ -1,18 +1,30 @@
 import React, { useState } from "react";
 
 const App = () => {
-  const [Task, SetTask] = useState([]);
-  const [search, SetSearch] = useState("");
+  const [tasks, setTasks] = useState([]);
+  const [input, setInput] = useState("");
 
-  function handleAddClick() {
-    SetTask((pre) => [...pre, search]);
-    SetSearch("");
-  }
+  const handleAddClick = () => {
+    if (input.trim()) {
+      setTasks((prev) => [
+        ...prev,
+        { text: input, completed: false, id: Date.now() },
+      ]);
+      setInput("");
+    }
+  };
 
-   function handleDeleteClick(index) {
-    const filterData = Task.filter((value,i) => i != index)
-    SetTask(filterData)
-  }
+  const handleCheck = (id) => {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
+  };
+
+  const handleDeleteClick = (id) => {
+    setTasks((prev) => prev.filter((task) => task.id !== id));
+  };
 
   return (
     <div className="h-screen w-screen flex flex-col justify-center items-center gap-6 bg-black text-white">
@@ -22,8 +34,8 @@ const App = () => {
           type="text"
           placeholder="Enter ToDo"
           className="px-4 py-1 border border-white rounded-sm"
-          value={search}
-          onChange={(e) => SetSearch(e.target.value)}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
         />
         <button
           onClick={handleAddClick}
@@ -34,10 +46,20 @@ const App = () => {
       </div>
 
       <div>
-        {Task.map((task, index) => (
-          <div key={index} className="flex gap-5 p-2">
-            <h1 className="text-lg font-bold">{task}</h1>
-            <button onClick={() => {handleDeleteClick(index)}} className="bg-gray-500 px-4 py-1 rounded-sm">Delete</button>
+        {tasks.map((task) => (
+          <div key={task.id} className="flex gap-5 p-2">
+            <input
+              type="checkbox"
+              checked={task.completed}
+              onChange={() => handleCheck(task.id)}
+            />
+            <h1 className={task.completed ? "line-through" : ""}>{task.text}</h1>
+            <button
+              onClick={() => handleDeleteClick(task.id)}
+              className="bg-gray-500 px-4 py-1 rounded-sm"
+            >
+              Delete
+            </button>
           </div>
         ))}
       </div>
